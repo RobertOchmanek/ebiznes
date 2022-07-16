@@ -16,15 +16,15 @@ function App() {
 
     let mounted = true;
 
-    getProducts().then(products => {
+    getProducts().then(fetchedProducts => {
       if (mounted) {
-        setProducts(products)
+        setProducts(fetchedProducts)
       }
     });
 
-    getCartItems().then(cartItems => {
+    getCartItems().then(fetchedCartItems => {
       if (mounted) {
-        setCartItems(cartItems)
+        setCartItems(fetchedCartItems)
       }
     });
 

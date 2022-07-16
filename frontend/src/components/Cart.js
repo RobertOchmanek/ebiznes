@@ -1,11 +1,9 @@
-import React from 'react';
-import { useState } from 'react';
+import { React, useState } from 'react';
 
 export default function Cart(props) {
 
     const getDefaultPaymentType = () => {
-        const defaultPaymentType = "Blik";
-        return defaultPaymentType;
+        return "Blik";
       };
     
 

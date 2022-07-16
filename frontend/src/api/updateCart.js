@@ -16,5 +16,5 @@ export async function updateCart(cart) {
         body: JSON.stringify({ UserId: 1, CartItems: cartItems })
     });
     
-    return await data.json();
+    return data.json();
 }

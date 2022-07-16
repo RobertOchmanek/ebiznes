@@ -10,7 +10,7 @@ export async function createOrder(cartItems, paymentType) {
         orderItems.push(orderItem)
     })
 
-    var paymentTypeValue
+    let paymentTypeValue
 
     switch(paymentType) {
         case "Blik":
@@ -23,7 +23,7 @@ export async function createOrder(cartItems, paymentType) {
            paymentTypeValue = 2;
            break;
         default:
-          paymentType = 0;
+          paymentTypeValue = 0;
       }
 
     const payemnt = {
@@ -40,5 +40,5 @@ export async function createOrder(cartItems, paymentType) {
         body: JSON.stringify({ UserId: 1, Payment: payemnt, OrderItems: orderItems})
     });
     
-    return await data.json();
+    return data.json();
 }
