@@ -1,48 +1,46 @@
 package api
 
 import (
-	"encoding/json"
-	"fmt"
+	"context"
 	"net/http"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/github"
 	"github.com/labstack/echo/v4"
 )
 
-const clientId = "<client ID>"
-const clientSecret = "<client secret>"
+const clientId = "clientId"
+const clientSecret = "clientSecret"
 
-func Authorize(c echo.Context) error {
+func OauthConfig() *oauth2.Config {
 
-	httpClient := http.Client{}
-
-	//Get request token from query param
-	requestToken := c.QueryParam("code")
-
-	requestUrl := fmt.Sprintf("https://github.com/login/oauth/access_token?client_id=%s&client_secret=%s&code=%s", clientId, clientSecret, requestToken)
-
-	req, err := http.NewRequest(http.MethodPost, requestUrl, nil)
-	if err != nil {
-		return c.NoContent(http.StatusBadRequest)
+	//Provide default configuration for oauth provider
+	oauthConfig := &oauth2.Config{
+		ClientID:     clientId,
+		ClientSecret: clientSecret,
+		Endpoint:     github.Endpoint,
+		Scopes:       []string{"user:email","read:user",},
+		RedirectURL:  "http://localhost:8080/oauth/callback",
 	}
-	//Set accept header to obtain the response as JSON
-	req.Header.Set("accept", "application/json")
 
-	//Perform access token request
-	res, err := httpClient.Do(req)
+	return oauthConfig
+}
+
+func OauthUrl(c echo.Context) error {
+
+	oauthUrl := OauthConfig().AuthCodeURL("state")
+
+	return c.JSON(http.StatusOK, oauthUrl)
+}
+
+func OauthCallback(c echo.Context) error {
+
+	//Request access token from provider
+	oauthToken, err := OauthConfig().Exchange(context.Background(), c.QueryParam("code"))
+
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
-	defer res.Body.Close()
-
-	//Parse the request body
-	var accessResponse AccessResponse
-	if err := json.NewDecoder(res.Body).Decode(&accessResponse); err != nil {
-		return c.NoContent(http.StatusBadRequest)
-	}
 	
 	//Redirect the user to the home page with acces token as query param
-	return c.Redirect(http.StatusFound, "http://localhost:3000?access_token=" + accessResponse.AccessToken)
-}
-
-type AccessResponse struct {
-	AccessToken string `json:"access_token"`
+	return c.Redirect(http.StatusFound, "http://localhost:3000?access_token=" + oauthToken.AccessToken)
 }

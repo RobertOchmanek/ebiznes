@@ -48,7 +48,8 @@ func Init() *echo.Echo {
 	e.GET("/cartItems/:userId", api.GetCartItems)
 	e.PUT("/cart", api.UpdateCart)
 
-	e.GET("/oauth/redirect", api.Authorize)
+	e.GET("/oauth", api.OauthUrl)
+	e.GET("/oauth/callback", api.OauthCallback)
 
 	return e
 }
