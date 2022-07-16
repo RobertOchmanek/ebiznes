@@ -38,71 +38,71 @@ func DbManager() *gorm.DB {
 //Initialize database with mocked data
 func initializeData(db *gorm.DB) {
 
-	cart_1 := model.Cart{
+	cart1 := model.Cart{
 		UserId: 1,
 		CartItems: []model.CartItem{},
 	}
-	db.Create(&cart_1)
+	db.Create(&cart1)
 
-	cart_2 := model.Cart{
+	cart2 := model.Cart{
 		UserId: 2,
 		CartItems: []model.CartItem{},
 	}
-	db.Create(&cart_2)
+	db.Create(&cart2)
 
-	user_1 := model.User{
+	user1 := model.User{
 		Username: "Robert",
 		Email: "robert@domain.com",
 	}
-	db.Create(&user_1)
+	db.Create(&user1)
 
-	user_2 := model.User{
+	user2 := model.User{
 		Username: "Tomasz",
 		Email: "tomasz@domain.com",
 	}
-	db.Create(&user_2)
+	db.Create(&user2)
 
-	product_1 := model.Product{
+	product1 := model.Product{
 		CategoryId: 1,
 		Name: "iPhone 13 Pro Max",
 		Price: 1099.0,
 		Image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-pro-max-blue-select?wid=940&hei=1112&fmt=png-alpha&.v=1645552346295",
 	}
-	db.Create(&product_1)
+	db.Create(&product1)
 
-	product_2 := model.Product{
+	product2 := model.Product{
 		CategoryId: 1,
 		Name: "iPhone 13",
 		Price: 799.0,
 		Image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1645036276543",
 	}
-	db.Create(&product_2)
+	db.Create(&product2)
 
-	product_3 := model.Product{
+	product3 := model.Product{
 		CategoryId: 2,
 		Name: "iPad Pro",
 		Price: 899.0,
 		Image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ipad-pro-11-select-202104_FMT_WHH?wid=2000&hei=2000&fmt=png-alpha&.v=1617067382000",
 	}
-	db.Create(&product_3)
+	db.Create(&product3)
 
-	product_4 := model.Product{
+	product4 := model.Product{
 		CategoryId: 2,
 		Name: "iPad Air",
 		Price: 599.0,
 		Image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/ipad-air-select-wifi-blue-202203?wid=940&hei=1112&fmt=png-alpha&.v=1645065732688",
 	}
-	db.Create(&product_4)
+	db.Create(&product4)
 
-	category_1 := model.Category{
+	category1 := model.Category{
 		Name: "Smartphone",
 		Products: []model.Product{},
 	}
-	db.Create(&category_1)
+	db.Create(&category1)
 
-	category_2 := model.Category{
+	category2 := model.Category{
 		Name: "Tablet",
 		Products: []model.Product{},
 	}
-	db.Create(&category_2)
+	db.Create(&category2)
 }

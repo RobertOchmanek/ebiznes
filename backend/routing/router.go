@@ -6,6 +6,14 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+var ordersPath = "/orders"
+var productsPath = "/products"
+var productsPathWithId = "/products/:id"
+var usersPath = "/users"
+var usersPathWithId = "/users/:id"
+var categoriesPath = "/categories"
+var categoriesPathWithId = "/categories/:id"
+
 func Init() *echo.Echo {
 
 	//Create server instance
@@ -17,25 +25,25 @@ func Init() *echo.Echo {
 	  })) 
 
 	//Initialize endpoints and handler methods
-	e.GET("/orders", api.GetOrders)
+	e.GET(ordersPath, api.GetOrders)
 	e.GET("/orders/:id", api.GetOrder)
-	e.POST("/orders", api.CreateOrder)
+	e.POST(ordersPath, api.CreateOrder)
 
-	e.GET("/products", api.GetProducts)
-	e.GET("/products/:id", api.GetProduct)
-	e.POST("/products", api.AddProduct)
-	e.PUT("/products/:id", api.UpdateProduct)
+	e.GET(productsPath, api.GetProducts)
+	e.GET(productsPathWithId, api.GetProduct)
+	e.POST(productsPath, api.AddProduct)
+	e.PUT(productsPathWithId, api.UpdateProduct)
 
-	e.GET("/users", api.GetUsers)
-	e.GET("/users/:id", api.GetUser)
-	e.POST("/users", api.AddUser)
-	e.PUT("/users/:id", api.UpdateUser)
+	e.GET(usersPath, api.GetUsers)
+	e.GET(usersPathWithId, api.GetUser)
+	e.POST(usersPath, api.AddUser)
+	e.PUT(usersPathWithId, api.UpdateUser)
 
-	e.GET("/categories", api.GetCategories)
-	e.GET("/categories/:id", api.GetCategory)
-	e.POST("/categories", api.AddCategory)
-	e.PUT("/categories/:id", api.UpdateCategory)
-	e.DELETE("/categories/:id", api.RemoveCategory)
+	e.GET(categoriesPath, api.GetCategories)
+	e.GET(categoriesPathWithId, api.GetCategory)
+	e.POST(categoriesPath, api.AddCategory)
+	e.PUT(categoriesPathWithId, api.UpdateCategory)
+	e.DELETE(categoriesPathWithId, api.RemoveCategory)
 
 	e.GET("/cartItems/:userId", api.GetCartItems)
 	e.PUT("/cart", api.UpdateCart)
