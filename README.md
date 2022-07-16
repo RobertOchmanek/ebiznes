@@ -1,3 +1,9 @@
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=RobertOchmanek_ebiznes)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=RobertOchmanek_ebiznes&metric=bugs)](https://sonarcloud.io/summary/new_code?id=RobertOchmanek_ebiznes)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=RobertOchmanek_ebiznes&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=RobertOchmanek_ebiznes)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=RobertOchmanek_ebiznes&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=RobertOchmanek_ebiznes)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=RobertOchmanek_ebiznes&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=RobertOchmanek_ebiznes)
+
 # Backend:
 
 ## GCC compiller is required to run backend server. To install, follow this guide:
