@@ -53,7 +53,7 @@ function App() {
 
   const onAdd = (product) => {
 
-    var cartItemsCopy = [...cartItems]
+    let cartItemsCopy = [...cartItems]
     const existingItem = cartItemsCopy.find(cartItem => cartItem.ID === product.ID)
 
     if (existingItem) {
@@ -70,7 +70,7 @@ function App() {
 
   const onRemove = (product) => {
 
-    var cartItemsCopy = [...cartItems]
+    let cartItemsCopy = [...cartItems]
     const existingItem = cartItemsCopy.find((cartItem) => cartItem.ID === product.ID);
 
     if (existingItem.Quantity === 1) {
