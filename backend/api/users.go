@@ -4,8 +4,8 @@ import (
 	"github.com/RobertOchmanek/ebiznes_go/database"
 	"github.com/RobertOchmanek/ebiznes_go/model"
 	"github.com/RobertOchmanek/ebiznes_go/model/rest"
-	"net/http"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 func GetUsers(c echo.Context) error {
@@ -39,7 +39,7 @@ func GetUser(c echo.Context) error {
 	db := database.DbManager()
 	user := model.User{}
 	//Preload user's orders and cart and include in response
-    db.Where("user_token = ?", userToken).Preload("Orders.OrderItems").Preload("Orders.Payment").Preload("Cart.CartItems").Find(&user)
+	db.Where("user_token = ?", userToken).Preload("Orders.OrderItems").Preload("Orders.Payment").Preload("Cart.CartItems").Find(&user)
 
 	//Return REST DTO to hide tokens
 	restUser := rest.RestUser{}
@@ -60,9 +60,5 @@ func UserExists(Username string) bool {
 	db.Where("username = ?", Username).Find(&user)
 
 	//User exists if object returned from DB does not contain empty fields
-	if (user.Username == "") {
-		return false
-	}
-
-	return true
+	return user.Username != ""
 }
