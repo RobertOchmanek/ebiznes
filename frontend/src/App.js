@@ -53,36 +53,36 @@ function App() {
 
   const onAdd = (product) => {
 
-    const existingItem = cartItems.find(cartItem => cartItem.ID === product.ID)
+    var cartItemsCopy = [...cartItems]
+    const existingItem = cartItemsCopy.find(cartItem => cartItem.ID === product.ID)
 
     if (existingItem) {
-      setCartItems(
-        cartItems.map((cartItem) => 
+      cartItemsCopy = cartItemsCopy.map((cartItem) => 
           cartItem.ID === product.ID ? {...existingItem, Quantity: existingItem.Quantity + 1} : cartItem
-        )
       );
     } else {
-      setCartItems([...cartItems, {...product, Quantity: 1}])
+      cartItemsCopy.push({...product, Quantity: 1})
     }
 
-    updateCart(cartItems, user.ID);
+    setCartItems(cartItemsCopy)
+    updateCart(cartItemsCopy, user.ID);
   };
 
   const onRemove = (product) => {
 
-    const existingItem = cartItems.find((cartItem) => cartItem.ID === product.ID);
+    var cartItemsCopy = [...cartItems]
+    const existingItem = cartItemsCopy.find((cartItem) => cartItem.ID === product.ID);
 
     if (existingItem.Quantity === 1) {
-      setCartItems(cartItems.filter((cartItem) => cartItem.ID !== product.ID));
+      cartItemsCopy = cartItemsCopy.filter((cartItem) => cartItem.ID !== product.ID);
     } else {
-      setCartItems(
-        cartItems.map((cartItem) => 
+        cartItemsCopy = cartItemsCopy.map((cartItem) => 
           cartItem.ID === product.ID ? {...existingItem, Quantity: existingItem.Quantity - 1} : cartItem
-        )
       );
     }
 
-    updateCart(cartItems, user.ID);
+    setCartItems(cartItemsCopy)
+    updateCart(cartItemsCopy, user.ID);
   };
 
   const onOrderPlaced = (paymentType) => {
