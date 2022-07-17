@@ -5,6 +5,7 @@ import (
 )
 
 //Cart item DTO for REST requests binding
+//TODO: simplify the same way as for order item
 type RestCartItem struct {
 	ID         int
 	CategoryId int

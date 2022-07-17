@@ -31,43 +31,17 @@ func GetUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-func AddUser(c echo.Context) error {
+func UserExists(Username string) bool {
 
-	//Bind json from request to object
-	newUser := new(model.User)
-	c.Bind(newUser)
-
-	//Obtain current database connection and save new user
-	db := database.DbManager()
-	db.Create(&newUser)
-
-	newCart := model.Cart{
-		UserId: int(newUser.ID),
-		CartItems: []model.CartItem{},
-	}
-	db.Create(&newCart)
-
-	return c.JSON(http.StatusOK, newUser)
-}
-
-func UpdateUser(c echo.Context) error {
-
-	//Get user ID from query param
-	id := c.Param("id")
-
-	//Bind json from request to object
-	updatedUser := new(model.User)
-	c.Bind(updatedUser)
-
-	//Obtain current database connection and update user by ID
+	//Obtain current database connection and fetch user by username
 	db := database.DbManager()
 	user := model.User{}
-    db.Where("id = ?", id).Find(&user)
+	db.Where("username = ?", Username).Find(&user)
 
-	//Update and save DB object
-	user.Username = updatedUser.Username
-	user.Email = updatedUser.Email
-	db.Save(&user)
+	//User exists if object returned from DB does not contain empty fields
+	if (user.Username == "") {
+		return false
+	}
 
-	return c.JSON(http.StatusOK, user)
+	return true
 }

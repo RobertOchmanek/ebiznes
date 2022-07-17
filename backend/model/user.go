@@ -8,7 +8,7 @@ import (
 type User struct {
 	gorm.Model
 	Username string
-	Email    string
+	OauthId  int
 	Cart     Cart
 	Orders   []Order
 }

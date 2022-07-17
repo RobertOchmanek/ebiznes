@@ -38,30 +38,6 @@ func DbManager() *gorm.DB {
 //Initialize database with mocked data
 func initializeData(db *gorm.DB) {
 
-	cart1 := model.Cart{
-		UserId: 1,
-		CartItems: []model.CartItem{},
-	}
-	db.Create(&cart1)
-
-	cart2 := model.Cart{
-		UserId: 2,
-		CartItems: []model.CartItem{},
-	}
-	db.Create(&cart2)
-
-	user1 := model.User{
-		Username: "Robert",
-		Email: "robert@domain.com",
-	}
-	db.Create(&user1)
-
-	user2 := model.User{
-		Username: "Tomasz",
-		Email: "tomasz@domain.com",
-	}
-	db.Create(&user2)
-
 	product1 := model.Product{
 		CategoryId: 1,
 		Name: "iPhone 13 Pro Max",

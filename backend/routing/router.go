@@ -9,8 +9,6 @@ import (
 var ordersPath = "/orders"
 var productsPath = "/products"
 var productsPathWithId = "/products/:id"
-var usersPath = "/users"
-var usersPathWithId = "/users/:id"
 var categoriesPath = "/categories"
 var categoriesPathWithId = "/categories/:id"
 
@@ -34,10 +32,8 @@ func Init() *echo.Echo {
 	e.POST(productsPath, api.AddProduct)
 	e.PUT(productsPathWithId, api.UpdateProduct)
 
-	e.GET(usersPath, api.GetUsers)
-	e.GET(usersPathWithId, api.GetUser)
-	e.POST(usersPath, api.AddUser)
-	e.PUT(usersPathWithId, api.UpdateUser)
+	e.GET("/users", api.GetUsers)
+	e.GET("/users/:id", api.GetUser)
 
 	e.GET(categoriesPath, api.GetCategories)
 	e.GET(categoriesPathWithId, api.GetCategory)
