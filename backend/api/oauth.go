@@ -2,15 +2,16 @@ package api
 
 import (
 	"context"
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/github"
+	"io/ioutil"
+	"net/http"
+
+	"github.com/RobertOchmanek/ebiznes_go/database"
+	"github.com/RobertOchmanek/ebiznes_go/model"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	"github.com/RobertOchmanek/ebiznes_go/model"
-	"github.com/RobertOchmanek/ebiznes_go/database"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/github"
 )
 
 const clientId = ""
@@ -23,7 +24,7 @@ func OauthConfig() *oauth2.Config {
 		ClientID:     clientId,
 		ClientSecret: clientSecret,
 		Endpoint:     github.Endpoint,
-		Scopes:       []string{"user:email","read:user",},
+		Scopes:       []string{"user:email", "read:user"},
 		RedirectURL:  "http://localhost:8080/oauth/callback",
 	}
 
@@ -54,7 +55,7 @@ func OauthCallback(c echo.Context) error {
 	}
 
 	userRequest.Header.Add("Accept", "application/vnd.github.v3+json")
-	userRequest.Header.Add("Authorization", "token " + oauthToken.AccessToken)
+	userRequest.Header.Add("Authorization", "token "+oauthToken.AccessToken)
 
 	//Perform user data request
 	userResponse, err := http.DefaultClient.Do(userRequest)
@@ -75,8 +76,8 @@ func OauthCallback(c echo.Context) error {
 
 	//Create temporary struct to hold user data returnerd from request
 	userDataStruct := struct {
-		ID       int
-		Login    string
+		ID    int
+		Login string
 	}{}
 
 	//Convert user data json to temporary struct
@@ -88,7 +89,7 @@ func OauthCallback(c echo.Context) error {
 	//Obtain current database connection
 	db := database.DbManager()
 
-	if (!UserExists(userDataStruct.Login)) {
+	if !UserExists(userDataStruct.Login) {
 
 		//Create new user if missing from DB
 		newCart := model.Cart{
@@ -116,5 +117,5 @@ func OauthCallback(c echo.Context) error {
 	}
 
 	//Redirect the user to the home page with acces token as query param
-	return c.Redirect(http.StatusFound, "http://localhost:3000?user_token=" + userToken.String())
+	return c.Redirect(http.StatusFound, "http://localhost:3000?user_token="+userToken.String())
 }

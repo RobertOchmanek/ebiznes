@@ -20,7 +20,7 @@ func Init() *echo.Echo {
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
-	  })) 
+	}))
 
 	//Initialize endpoints and handler methods
 	e.GET(ordersPath, api.GetOrders)
