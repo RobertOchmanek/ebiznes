@@ -4,8 +4,8 @@ import Header from './Header';
 
 export default function LoginPage() {
 
-    const onLogin = (oauthProvider) => {
-        getLoginUrl(oauthProvider).then(loginUrl => window.open(loginUrl, "_self"));
+    const onLogin = () => {
+        getLoginUrl().then(loginUrl => window.open(loginUrl, "_self"));
       }
 
     return(
@@ -14,7 +14,7 @@ export default function LoginPage() {
             <div className='login-wrapper'>
                 <h2>Please login using available OAuth2 providers:</h2>
                 <div>
-                    <button type="submit" onClick={() => onLogin("GitHub")}>GitHub</button>
+                    <button type="submit" onClick={() => onLogin()}>GitHub</button>
                 </div>
             </div>
         </div>

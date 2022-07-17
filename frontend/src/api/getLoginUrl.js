@@ -1,11 +1,5 @@
-export async function getLoginUrl(oauthProvider) {
+export async function getLoginUrl() {
 
-    let loginUrl
-
-    switch(oauthProvider) {
-        default:
-            loginUrl = await fetch('http://localhost:8080/oauth');
-    }
-
+    const loginUrl = await fetch('http://localhost:8080/oauth');
     return loginUrl.json();
 }
