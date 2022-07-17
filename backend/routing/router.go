@@ -33,7 +33,7 @@ func Init() *echo.Echo {
 	e.PUT(productsPathWithId, api.UpdateProduct)
 
 	e.GET("/users", api.GetUsers)
-	e.GET("/users/:id", api.GetUser)
+	e.GET("/users/:userToken", api.GetUser)
 
 	e.GET(categoriesPath, api.GetCategories)
 	e.GET(categoriesPathWithId, api.GetCategory)

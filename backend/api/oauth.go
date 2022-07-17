@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/github"
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/RobertOchmanek/ebiznes_go/model"
 	"github.com/RobertOchmanek/ebiznes_go/database"
@@ -74,37 +75,46 @@ func OauthCallback(c echo.Context) error {
 
 	//Create temporary struct to hold user data returnerd from request
 	userDataStruct := struct {
-		ID       int    //`json:"id"`
-		Login    string //`json:"login"`
+		ID       int
+		Login    string
 	}{}
 
 	//Convert user data json to temporary struct
 	json.Unmarshal([]byte(userDataString), &userDataStruct)
 
-	internalUser := model.User{}
-	internalUser.Username = userDataStruct.Login
-	internalUser.OauthId = userDataStruct.ID
+	//Create new internal user token to save or refresh
+	userToken := uuid.New()
 
-	//Obtain current database connection and check whether user exists
+	//Obtain current database connection
 	db := database.DbManager()
 
-	if (!UserExists(internalUser.Username)) {
+	if (!UserExists(userDataStruct.Login)) {
 
+		//Create new user if missing from DB
 		newCart := model.Cart{
 			CartItems: []model.CartItem{},
 		}
 
+		internalUser := model.User{}
+		internalUser.Username = userDataStruct.Login
+		internalUser.OauthId = userDataStruct.ID
+		internalUser.OauthToken = oauthToken.AccessToken
+		internalUser.UserToken = userToken.String()
 		internalUser.Cart = newCart
+
 		db.Create(&internalUser)
+	} else {
+
+		//If user exists refresh access token
+		user := model.User{}
+		db.Where("username = ?", userDataStruct.Login).Find(&user)
+
+		user.OauthToken = oauthToken.AccessToken
+		user.UserToken = userToken.String()
+
+		db.Save(&user)
 	}
 
-	/*userInDB := controllers.GetUserFromDB(user.Email)
-
-	errToken := GenerateTokensAndSetCookies(c)
-	if errToken != nil {
-		return errToken
-	}*/
-
 	//Redirect the user to the home page with acces token as query param
-	return c.Redirect(http.StatusFound, "http://localhost:3000?access_token=" + oauthToken.AccessToken)
+	return c.Redirect(http.StatusFound, "http://localhost:3000?user_token=" + userToken.String())
 }

@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/RobertOchmanek/ebiznes_go/database"
 	"github.com/RobertOchmanek/ebiznes_go/model"
+	"github.com/RobertOchmanek/ebiznes_go/model/rest"
 	"net/http"
 	"github.com/labstack/echo/v4"
 )
@@ -14,21 +15,41 @@ func GetUsers(c echo.Context) error {
 	users := []model.User{}
 	db.Find(&users)
 
-	return c.JSON(http.StatusOK, users)
+	//Return REST DTOs to hide tokens
+	restUsers := []rest.RestUser{}
+	for _, user := range users {
+		restUser := rest.RestUser{}
+		restUser.ID = int(user.ID)
+		restUser.Username = user.Username
+		restUser.OauthId = user.OauthId
+		restUser.Cart = user.Cart
+		restUser.Orders = user.Orders
+		restUsers = append(restUsers, restUser)
+	}
+
+	return c.JSON(http.StatusOK, restUsers)
 }
 
 func GetUser(c echo.Context) error {
 
 	//Get user ID from query param
-	id := c.Param("id")
+	userToken := c.Param("userToken")
 
 	//Obtain current database connection and fetch user by ID
 	db := database.DbManager()
 	user := model.User{}
 	//Preload user's orders and cart and include in response
-    db.Where("id = ?", id).Preload("Orders.OrderItems").Preload("Orders.Payment").Preload("Cart.CartItems").Find(&user)
+    db.Where("user_token = ?", userToken).Preload("Orders.OrderItems").Preload("Orders.Payment").Preload("Cart.CartItems").Find(&user)
 
-	return c.JSON(http.StatusOK, user)
+	//Return REST DTO to hide tokens
+	restUser := rest.RestUser{}
+	restUser.ID = int(user.ID)
+	restUser.Username = user.Username
+	restUser.OauthId = user.OauthId
+	restUser.Cart = user.Cart
+	restUser.Orders = user.Orders
+
+	return c.JSON(http.StatusOK, restUser)
 }
 
 func UserExists(Username string) bool {
