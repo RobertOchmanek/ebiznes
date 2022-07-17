@@ -1,4 +1,4 @@
-export async function createOrder(cartItems, paymentType) {
+export async function createOrder(cartItems, paymentType, userId) {
 
     const orderItems = []
 
@@ -36,8 +36,7 @@ export async function createOrder(cartItems, paymentType) {
         headers: {
             'Content-Type': 'application/json'
         },
-        //NOTE: user ID is hardcoded until login is implemented
-        body: JSON.stringify({ UserId: 1, Payment: payemnt, OrderItems: orderItems})
+        body: JSON.stringify({ UserId: userId, Payment: payemnt, OrderItems: orderItems})
     });
     
     return data.json();

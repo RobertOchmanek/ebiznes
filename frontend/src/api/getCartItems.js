@@ -1,6 +1,5 @@
-export async function getCartItems() {
+export async function getCartItems(userId) {
 
-    //NOTE: user ID is hardcoded until login is implemented
-    const data = await fetch('http://localhost:8080/cartItems/1');
+    const data = await fetch('http://localhost:8080/cartItems/' + userId);
     return data.json();
 }

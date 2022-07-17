@@ -6,7 +6,6 @@ export default function Cart(props) {
         return "Blik";
       };
     
-
     const [paymentType, setPaymentType] = useState(getDefaultPaymentType);
 
     const { cartItems, onAdd, onRemove, onOrderPlaced } = props;

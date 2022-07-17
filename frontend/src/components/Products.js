@@ -1,7 +1,7 @@
 import React from 'react';
 import Product from './Product';
 
-export default function Main(props) {
+export default function Products(props) {
 
     const { products, onAdd } = props;
 

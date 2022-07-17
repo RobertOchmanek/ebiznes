@@ -1,4 +1,4 @@
-export async function updateCart(cart) {
+export async function updateCart(cart, userId) {
 
     //TODO: always one request behind
     const cartItems = []
@@ -12,8 +12,7 @@ export async function updateCart(cart) {
         headers: {
             'Content-Type': 'application/json'
         },
-        //NOTE: user ID is hardcoded until login is implemented
-        body: JSON.stringify({ UserId: 1, CartItems: cartItems })
+        body: JSON.stringify({ UserId: userId, CartItems: cartItems })
     });
     
     return data.json();

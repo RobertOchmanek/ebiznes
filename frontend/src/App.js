@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import Cart from './components/Cart';
 import Header from './components/Header';
-import Main from './components/Main';
+import LoginPage from './components/LoginPage'
+import Products from './components/Products';
 import { createOrder } from './api/createOrder';
 import { getCartItems } from './api/getCartItems';
 import { getProducts } from './api/getProducts';
+import { getUser } from './api/getUser';
 import { updateCart } from './api/updateCart';
 
 function App() {
 
+  const [userToken, setUserToken] = useState();
+  const [user, setUser] = useState();
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
 
@@ -16,20 +20,36 @@ function App() {
 
     let mounted = true;
 
-    getProducts().then(fetchedProducts => {
-      if (mounted) {
-        setProducts(fetchedProducts)
-      }
-    });
+    if (!userToken) {
 
-    getCartItems().then(fetchedCartItems => {
-      if (mounted) {
-        setCartItems(fetchedCartItems)
-      }
-    });
+      const urlParams = new URLSearchParams(window.location.search);
+      setUserToken(urlParams.get('user_token'))
+
+    } else {
+
+      getUser(userToken).then(fetchedUser => {
+        if (mounted) {
+          setUser(fetchedUser)
+          return fetchedUser.ID
+        }
+      }).then(userId => {
+        getCartItems(userId).then(fetchedCartItems => {
+          if (mounted) {
+            setCartItems(fetchedCartItems)
+          }
+        });
+      });
+
+      getProducts().then(fetchedProducts => {
+        if (mounted) {
+          setProducts(fetchedProducts)
+        }
+      });
+
+    }
 
     return () => mounted = false;
-  }, []);
+  }, [userToken]);
 
   const onAdd = (product) => {
 
@@ -45,7 +65,7 @@ function App() {
       setCartItems([...cartItems, {...product, Quantity: 1}])
     }
 
-    updateCart(cartItems);
+    updateCart(cartItems, user.ID);
   };
 
   const onRemove = (product) => {
@@ -62,25 +82,37 @@ function App() {
       );
     }
 
-    updateCart(cartItems);
+    updateCart(cartItems, user.ID);
   };
 
   const onOrderPlaced = (paymentType) => {
 
-    createOrder(cartItems, paymentType);
+    createOrder(cartItems, paymentType, user.ID);
     setCartItems([]);
     alert("Order successfully placed!")
   }
 
-  return (
-    <div className="App">
-        <Header numCartItems={cartItems.length}></Header>
+  if(!userToken) {
+
+    return (
+      <div className='App'>
+        <LoginPage></LoginPage>
+      </div>
+    );
+
+  } else {
+
+    return(
+      <div className='App'>
+        <Header numCartItems={cartItems.length} showBadge={true} setUserToken={setUserToken}></Header>
         <div className='row'>
-          <Main onAdd={onAdd} products={products}></Main>
+          <Products onAdd={onAdd} products={products}></Products>
           <Cart onAdd={onAdd} onRemove={onRemove} onOrderPlaced={onOrderPlaced} cartItems={cartItems}></Cart>
         </div>
-    </div>
-  );
+      </div>
+    );
+
+  }
 }
 
 export default App;

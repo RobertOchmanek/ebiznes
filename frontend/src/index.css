@@ -81,3 +81,9 @@ button.badge {
 .text-right {
   text-align: right;
 }
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
