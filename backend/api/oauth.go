@@ -31,11 +31,32 @@ func OauthConfig() *oauth2.Config {
 	return oauthConfig
 }
 
-func OauthUrl(c echo.Context) error {
+func OauthLoginUrl(c echo.Context) error {
 
 	oauthUrl := OauthConfig().AuthCodeURL("state")
 
 	return c.JSON(http.StatusOK, oauthUrl)
+}
+
+func OauthLogoutUrl(c echo.Context) error {
+
+	//Get user ID from query param
+	userId := c.Param("userId")
+
+	//Obtain current database connection and fetch user by ID
+	db := database.DbManager()
+
+	user := model.User{}
+	db.Where("id = ?", userId).Find(&user)
+
+	//Invalidate user tokens and update user in DB
+	user.OauthToken = ""
+	user.UserToken = ""
+
+	db.Save(&user)
+
+	//Redirect user to login page
+	return c.JSON(http.StatusOK, "http://localhost:3000")
 }
 
 func OauthCallback(c echo.Context) error {

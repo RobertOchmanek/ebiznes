@@ -1,11 +1,12 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/RobertOchmanek/ebiznes_go/database"
 	"github.com/RobertOchmanek/ebiznes_go/model"
 	"github.com/RobertOchmanek/ebiznes_go/model/rest"
 	"github.com/labstack/echo/v4"
-	"net/http"
 )
 
 func GetUsers(c echo.Context) error {
@@ -32,10 +33,10 @@ func GetUsers(c echo.Context) error {
 
 func GetUser(c echo.Context) error {
 
-	//Get user ID from query param
+	//Get user token from query param
 	userToken := c.Param("userToken")
 
-	//Obtain current database connection and fetch user by ID
+	//Obtain current database connection and fetch user by user token
 	db := database.DbManager()
 	user := model.User{}
 	//Preload user's orders and cart and include in response

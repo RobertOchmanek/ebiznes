@@ -2,7 +2,9 @@ import React from 'react';
 import { getLoginUrl } from '../api/getLoginUrl';
 import Header from './Header';
 
-export default function LoginPage() {
+export default function LoginPage(props) {
+
+    const { loggedIn } = props
 
     const onLogin = () => {
         getLoginUrl().then(loginUrl => window.open(loginUrl, "_self"));
@@ -10,7 +12,7 @@ export default function LoginPage() {
 
     return(
         <div>
-            <Header></Header>
+            <Header loggedIn={loggedIn}></Header>
             <div className='login-wrapper'>
                 <h2>Please login using available OAuth2 providers:</h2>
                 <div>

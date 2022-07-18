@@ -96,7 +96,7 @@ function App() {
 
     return (
       <div className='App'>
-        <LoginPage></LoginPage>
+        <LoginPage loggedIn={false}></LoginPage>
       </div>
     );
 
@@ -104,7 +104,7 @@ function App() {
 
     return(
       <div className='App'>
-        <Header numCartItems={cartItems.length} showBadge={true} setUserToken={setUserToken}></Header>
+        <Header numCartItems={cartItems.length} showBadge={true} loggedIn={true} user={user}></Header>
         <div className='row'>
           <Products onAdd={onAdd} products={products}></Products>
           <Cart onAdd={onAdd} onRemove={onRemove} onOrderPlaced={onOrderPlaced} cartItems={cartItems}></Cart>

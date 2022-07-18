@@ -1,13 +1,19 @@
 import React from 'react';
+import { getLogoutUrl } from '../api/getLogoutUrl';
 
 export default function Header(props) {
 
-    const { numCartItems } = props;
+    const { numCartItems, loggedIn, user } = props;
+
+    const onLogout = () => {
+        getLogoutUrl(user.ID).then(logoutUrl => window.open(logoutUrl, "_self"));
+    }
 
     return (
         <header className='row block center'>
             <div>
                 <h1>Robert's Store</h1>
+                {loggedIn ? (<button onClick={() => onLogout()}>Log out</button>) : (<></>)}
             </div>
             {numCartItems > 0 ? 
                 (<div>
