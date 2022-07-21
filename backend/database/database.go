@@ -6,6 +6,8 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
+const IdEquals = "id = ?"
+
 var db *gorm.DB
 var err error
 

@@ -3,8 +3,8 @@ package api
 import (
 	"github.com/RobertOchmanek/ebiznes_go/database"
 	"github.com/RobertOchmanek/ebiznes_go/model"
-	"net/http"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 func GetProducts(c echo.Context) error {
@@ -25,7 +25,7 @@ func GetProduct(c echo.Context) error {
 	//Obtain current database connection and fetch product by ID
 	db := database.DbManager()
 	product := model.Product{}
-    db.Where("id = ?", id).Find(&product)
+	db.Where(database.IdEquals, id).Find(&product)
 
 	return c.JSON(http.StatusOK, product)
 }
@@ -55,7 +55,7 @@ func UpdateProduct(c echo.Context) error {
 	//Obtain current database connection and update product by ID
 	db := database.DbManager()
 	product := model.Product{}
-    db.Where("id = ?", id).Find(&product)
+	db.Where(database.IdEquals, id).Find(&product)
 
 	//Update and save DB object
 	product.CategoryId = updatedProduct.CategoryId

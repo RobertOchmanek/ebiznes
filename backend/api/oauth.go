@@ -47,7 +47,7 @@ func OauthLogoutUrl(c echo.Context) error {
 	db := database.DbManager()
 
 	user := model.User{}
-	db.Where("id = ?", userId).Find(&user)
+	db.Where(database.IdEquals, userId).Find(&user)
 
 	//Invalidate user tokens and update user in DB
 	user.OauthToken = ""

@@ -4,8 +4,8 @@ import (
 	"github.com/RobertOchmanek/ebiznes_go/database"
 	"github.com/RobertOchmanek/ebiznes_go/model"
 	"github.com/RobertOchmanek/ebiznes_go/model/rest"
-	"net/http"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 func GetCartItems(c echo.Context) error {
@@ -17,7 +17,7 @@ func GetCartItems(c echo.Context) error {
 	db := database.DbManager()
 	cart := model.Cart{}
 	//Preload all cart's items to obtain quantity and ID of each item
-    db.Where("user_id = ?", userId).Preload("CartItems").Find(&cart)
+	db.Where("user_id = ?", userId).Preload("CartItems").Find(&cart)
 
 	//For each cart item fetch product by ID and convert it to REST DTO
 	restCartItems := []rest.RestCartItem{}
@@ -26,7 +26,7 @@ func GetCartItems(c echo.Context) error {
 		fetchedProduct := model.Product{}
 		restCartItem := rest.RestCartItem{}
 
-		db.Where("id = ?", cartItem.ProductId).Find(&fetchedProduct)
+		db.Where(database.IdEquals, cartItem.ProductId).Find(&fetchedProduct)
 
 		restCartItem.ID = int(fetchedProduct.ID)
 		restCartItem.CategoryId = fetchedProduct.CategoryId
@@ -55,7 +55,7 @@ func UpdateCart(c echo.Context) error {
 
 	currentCart := model.Cart{}
 	//Preload all cart's items and delete them
-    db.Where("user_id = ?", updatedCart.UserId).Preload("CartItems").Find(&currentCart)
+	db.Where("user_id = ?", updatedCart.UserId).Preload("CartItems").Find(&currentCart)
 
 	for _, cartItem := range currentCart.CartItems {
 		db.Delete(&cartItem)
