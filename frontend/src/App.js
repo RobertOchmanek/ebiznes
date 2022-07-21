@@ -87,9 +87,16 @@ function App() {
 
   const onOrderPlaced = (ammount) => {
 
-    createOrder(cartItems, user.ID, ammount);
-    setCartItems([]);
-    alert("Order successfully placed!")
+    createOrder(cartItems, user.ID, ammount).then(accepted => {
+      
+      setCartItems([]);
+
+      if (accepted) {
+        alert("Your order has been placed successfully.")
+      } else {
+        alert("There was an error while processing the order. Please try again.")
+      }
+    });
   }
 
   if(!userToken) {

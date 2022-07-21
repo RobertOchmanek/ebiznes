@@ -14,7 +14,7 @@ export default function LoginPage(props) {
         <div>
             <Header loggedIn={loggedIn}></Header>
             <div className='login-wrapper'>
-                <h2>Please login using available OAuth2 providers:</h2>
+                <h2>Please log in using available OAuth2 providers:</h2>
                 <div>
                     <button type="submit" onClick={() => onLogin()}>GitHub</button>
                 </div>
