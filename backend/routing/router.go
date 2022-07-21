@@ -48,5 +48,7 @@ func Init() *echo.Echo {
 	e.GET("/oauth/logout/:userId", api.OauthLogoutUrl)
 	e.GET("/oauth/callback", api.OauthCallback)
 
+	e.POST("/payment", api.HandlePayment)
+
 	return e
 }
