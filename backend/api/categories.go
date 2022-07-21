@@ -4,11 +4,11 @@ import (
 	"github.com/RobertOchmanek/ebiznes_go/database"
 	"github.com/RobertOchmanek/ebiznes_go/model"
 	"github.com/RobertOchmanek/ebiznes_go/model/rest"
-	"net/http"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
-var idEquals = "id = ?"
+const idEquals = "id = ?"
 
 func GetCategories(c echo.Context) error {
 
@@ -30,7 +30,7 @@ func GetCategory(c echo.Context) error {
 	db := database.DbManager()
 	category := model.Category{}
 	//Preload all category's products and include in response
-    db.Where(idEquals, id).Preload("Products").Find(&category)
+	db.Where(idEquals, id).Preload("Products").Find(&category)
 
 	return c.JSON(http.StatusOK, category)
 }
@@ -64,7 +64,7 @@ func UpdateCategory(c echo.Context) error {
 	//Obtain current database connection and update category by ID
 	db := database.DbManager()
 	category := model.Category{}
-    db.Where(idEquals, id).Find(&category)
+	db.Where(idEquals, id).Find(&category)
 
 	//Update and save DB object
 	category.Name = restCategory.Name
@@ -82,7 +82,7 @@ func RemoveCategory(c echo.Context) error {
 	db := database.DbManager()
 	category := model.Category{}
 	//Preload all category's products to check if it can be removed
-    db.Where(idEquals, id).Preload("Products").Find(&category)
+	db.Where(idEquals, id).Preload("Products").Find(&category)
 
 	if len(category.Products) > 0 {
 		return c.JSON(http.StatusMethodNotAllowed, "Category can not be removed unless it does not contain any products")

@@ -1,22 +1,12 @@
-import { React, useState } from 'react';
+import { React } from 'react';
 
 export default function Cart(props) {
-
-    const getDefaultPaymentType = () => {
-        return "Blik";
-      };
     
-    const [paymentType, setPaymentType] = useState(getDefaultPaymentType);
-
     const { cartItems, onAdd, onRemove, onOrderPlaced } = props;
     const cartValue = cartItems.reduce((accumulator, currentItem) => accumulator + (currentItem.Price * currentItem.Quantity), 0);
     const taxValue = cartValue * 0.23;
     const shipping= cartValue > 2000 ? 0 : 50;
     const totalPrice = cartValue + taxValue + shipping;
-
-    const onPaymentTypeChanged = (e) => {
-        setPaymentType(e.target.value);
-    }
 
     return (
         <aside className='block col-1'>
@@ -62,20 +52,7 @@ export default function Cart(props) {
                     <hr></hr>
 
                     <div className='row'>
-                        <div className='col-2'>Payment type:</div>
-                        <div className='col-1 text-right'>
-                            <select value={paymentType} onChange={onPaymentTypeChanged}>
-                                <option value="Blik">Blik</option>
-                                <option value="Credit card">Credit card</option>
-                                <option value="Bank transfer">Bank transfer</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <hr></hr>
-
-                    <div className='row'>
-                        <button onClick={() => {onOrderPlaced(paymentType); setPaymentType(getDefaultPaymentType())}}>Place an order</button>
+                        <button onClick={() => {onOrderPlaced(parseFloat(totalPrice.toFixed(2)))}}>Place an order</button>
                     </div>
                 </>
             )}

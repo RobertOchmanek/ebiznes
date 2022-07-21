@@ -4,19 +4,13 @@ package model
 type PaymentType int
 
 const (
-	Blik PaymentType = iota
-	CreditCard
-	BankTransfer
+	CreditCard PaymentType = iota
 )
 
 func (pt PaymentType) String() string {
 	switch pt {
-	case Blik:
-		return "BLIK"
 	case CreditCard:
 		return "Credit Card"
-	case BankTransfer:
-		return "Bank Transfer"
 	}
 	return "Unknown"
 }

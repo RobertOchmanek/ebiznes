@@ -85,9 +85,9 @@ function App() {
     updateCart(cartItemsCopy, user.ID);
   };
 
-  const onOrderPlaced = (paymentType) => {
+  const onOrderPlaced = (ammount) => {
 
-    createOrder(cartItems, paymentType, user.ID);
+    createOrder(cartItems, user.ID, ammount);
     setCartItems([]);
     alert("Order successfully placed!")
   }

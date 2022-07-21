@@ -10,4 +10,6 @@ type Payment struct {
 	OrderId     int
 	Accepted    bool
 	PaymentType PaymentType
+	Amount      float32
+	Description string
 }

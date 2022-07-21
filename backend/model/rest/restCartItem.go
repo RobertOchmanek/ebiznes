@@ -11,7 +11,7 @@ type RestCartItem struct {
 	CategoryId int
 	Name       string
 	Price      float32
-	Image	   string
+	Image      string
 	Quantity   int
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
