@@ -11,7 +11,7 @@ import { updateCart } from './api/updateCart';
 
 function App() {
 
-  const backendAddress = 'http://localhost:8080';
+  const backendAddress = 'https://ebiznesbackendcontainer.azurewebsites.net';
   const [userToken, setUserToken] = useState();
   const [user, setUser] = useState();
   const [products, setProducts] = useState([]);
