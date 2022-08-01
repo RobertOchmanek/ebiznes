@@ -1,15 +1,16 @@
 package api
 
 import (
+	"net/http"
+	"os"
+	"strconv"
+
 	"github.com/RobertOchmanek/ebiznes_go/database"
 	"github.com/RobertOchmanek/ebiznes_go/model"
 	"github.com/RobertOchmanek/ebiznes_go/model/rest"
 	"github.com/labstack/echo/v4"
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
-	"net/http"
-	"os"
-	"strconv"
 )
 
 var stripeApiKey = os.Getenv("STRIPE_API_KEY")
@@ -85,15 +86,14 @@ func CreateOrder(c echo.Context) error {
 	//NOTE: remove last ", " from description
 	description = description[:(len(description) - 2)]
 
-	//TODO: get real email from oauth
-	//TODO: add card number, CCV and expiring
 	//Prepare and execute call to Stripe API to process the payment
 	_, err := charge.New(&stripe.ChargeParams{
-		Amount:       stripe.Int64(int64(ammount)),
-		Currency:     stripe.String(string(stripe.CurrencyUSD)),
-		Description:  stripe.String(description),
-		Source:       &stripe.SourceParams{Token: stripe.String("tok_visa")},
-		ReceiptEmail: stripe.String("temp@emial.com")})
+		Amount:      stripe.Int64(int64(ammount)),
+		Currency:    stripe.String(string(stripe.CurrencyUSD)),
+		Description: stripe.String(description),
+		Source:      &stripe.SourceParams{Token: stripe.String("tok_visa")},
+		//NOTE: dummy email is used as Stripe doesn't allow user emails in testing mode
+		ReceiptEmail: stripe.String("example@emial.com")})
 
 	if err != nil {
 		accepted = false

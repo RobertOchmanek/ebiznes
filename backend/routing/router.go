@@ -22,6 +22,8 @@ func Init() *echo.Echo {
 	}))
 
 	//Initialize endpoints and handler methods
+	e.GET("/", api.HomePage)
+
 	e.GET(ordersPath, api.GetOrders)
 	e.GET("/orders/:id", api.GetOrder)
 	e.POST(ordersPath, api.CreateOrder)

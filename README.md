@@ -4,6 +4,7 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=RobertOchmanek_ebiznes&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=RobertOchmanek_ebiznes)
 
 # Backend:
+- https://ebiznesbackendcontainer.azurewebsites.net
 
 ## GCC compiller is required to run backend server. To install, follow this guide:
 - https://code.visualstudio.com/docs/cpp/config-mingw
@@ -17,8 +18,8 @@
 - `go build main.go`
 - `./main`
 
-
 # Frontend:
+- https://ebiznesfrontendcontainer.azurewebsites.net
 
 ## To run frontend client execute the following commands in `frontend` directory:
 
