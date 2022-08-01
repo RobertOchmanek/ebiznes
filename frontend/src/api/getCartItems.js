@@ -1,5 +1,5 @@
-export async function getCartItems(userId) {
+export async function getCartItems(backendAddress, userId) {
 
-    const data = await fetch('http://localhost:8080/cartItems/' + userId);
+    const data = await fetch(backendAddress + '/cartItems/' + userId);
     return data.json();
 }

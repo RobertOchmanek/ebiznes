@@ -3,10 +3,10 @@ import { getLogoutUrl } from '../api/getLogoutUrl';
 
 export default function Header(props) {
 
-    const { numCartItems, loggedIn, user } = props;
+    const { backendAddress, numCartItems, loggedIn, user } = props;
 
     const onLogout = () => {
-        getLogoutUrl(user.ID).then(logoutUrl => window.open(logoutUrl, "_self"));
+        getLogoutUrl(backendAddress, user.ID).then(logoutUrl => window.open(logoutUrl, "_self"));
     }
 
     return (

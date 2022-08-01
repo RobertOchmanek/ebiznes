@@ -1,5 +1,5 @@
-export async function getUser(userToken) {
+export async function getUser(backendAddress, userToken) {
 
-    const data = await fetch('http://localhost:8080/users/' + userToken);
+    const data = await fetch(backendAddress + '/users/' + userToken);
     return data.json();
   }

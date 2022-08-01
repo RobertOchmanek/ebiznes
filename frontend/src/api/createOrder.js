@@ -1,4 +1,4 @@
-export async function createOrder(cartItems, userId, ammount) {
+export async function createOrder(backendAddress, cartItems, userId, ammount) {
 
     const orderItems = []
 
@@ -10,7 +10,7 @@ export async function createOrder(cartItems, userId, ammount) {
         orderItems.push(orderItem)
     })
 
-    const data = await fetch('http://localhost:8080/orders', {
+    const data = await fetch(backendAddress + '/orders', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

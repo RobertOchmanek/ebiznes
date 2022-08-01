@@ -11,6 +11,7 @@ import { updateCart } from './api/updateCart';
 
 function App() {
 
+  const backendAddress = 'http://localhost:8080';
   const [userToken, setUserToken] = useState();
   const [user, setUser] = useState();
   const [products, setProducts] = useState([]);
@@ -27,20 +28,20 @@ function App() {
 
     } else {
 
-      getUser(userToken).then(fetchedUser => {
+      getUser(backendAddress, userToken).then(fetchedUser => {
         if (mounted) {
           setUser(fetchedUser)
           return fetchedUser.ID
         }
       }).then(userId => {
-        getCartItems(userId).then(fetchedCartItems => {
+        getCartItems(backendAddress, userId).then(fetchedCartItems => {
           if (mounted) {
             setCartItems(fetchedCartItems)
           }
         });
       });
 
-      getProducts().then(fetchedProducts => {
+      getProducts(backendAddress).then(fetchedProducts => {
         if (mounted) {
           setProducts(fetchedProducts)
         }
@@ -65,7 +66,7 @@ function App() {
     }
 
     setCartItems(cartItemsCopy)
-    updateCart(cartItemsCopy, user.ID);
+    updateCart(backendAddress, cartItemsCopy, user.ID);
   };
 
   const onRemove = (product) => {
@@ -82,12 +83,12 @@ function App() {
     }
 
     setCartItems(cartItemsCopy)
-    updateCart(cartItemsCopy, user.ID);
+    updateCart(backendAddress, cartItemsCopy, user.ID);
   };
 
   const onOrderPlaced = (ammount) => {
 
-    createOrder(cartItems, user.ID, ammount).then(accepted => {
+    createOrder(backendAddress, cartItems, user.ID, ammount).then(accepted => {
       
       setCartItems([]);
 
@@ -103,7 +104,7 @@ function App() {
 
     return (
       <div className='App'>
-        <LoginPage loggedIn={false}></LoginPage>
+        <LoginPage backendAddress={backendAddress} loggedIn={false}></LoginPage>
       </div>
     );
 
@@ -111,7 +112,7 @@ function App() {
 
     return(
       <div className='App'>
-        <Header numCartItems={cartItems.length} showBadge={true} loggedIn={true} user={user}></Header>
+        <Header backendAddress={backendAddress} numCartItems={cartItems.length} showBadge={true} loggedIn={true} user={user}></Header>
         <div className='row'>
           <Products onAdd={onAdd} products={products}></Products>
           <Cart onAdd={onAdd} onRemove={onRemove} onOrderPlaced={onOrderPlaced} cartItems={cartItems}></Cart>

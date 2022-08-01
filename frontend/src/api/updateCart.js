@@ -1,4 +1,4 @@
-export async function updateCart(cart, userId) {
+export async function updateCart(backendAddress, cart, userId) {
 
     const cartItems = []
 
@@ -6,7 +6,7 @@ export async function updateCart(cart, userId) {
         cartItems.push(cartItem)
     })
 
-    const data = await fetch('http://localhost:8080/cart', {
+    const data = await fetch(backendAddress + '/cart', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

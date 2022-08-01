@@ -1,5 +1,5 @@
-export async function getProducts() {
+export async function getProducts(backendAddress) {
 
-  const data = await fetch('http://localhost:8080/products');
+  const data = await fetch(backendAddress + '/products');
   return data.json();
 }

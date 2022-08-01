@@ -4,10 +4,10 @@ import Header from './Header';
 
 export default function LoginPage(props) {
 
-    const { loggedIn } = props
+    const { backendAddress, loggedIn } = props
 
     const onLogin = () => {
-        getLoginUrl().then(loginUrl => window.open(loginUrl, "_self"));
+        getLoginUrl(backendAddress).then(loginUrl => window.open(loginUrl, "_self"));
       }
 
     return(

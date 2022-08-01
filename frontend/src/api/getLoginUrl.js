@@ -1,5 +1,5 @@
-export async function getLoginUrl() {
+export async function getLoginUrl(backendAddress) {
 
-    const loginUrl = await fetch('http://localhost:8080/oauth/login');
+    const loginUrl = await fetch(backendAddress + '/oauth/login');
     return loginUrl.json();
 }

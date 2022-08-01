@@ -1,5 +1,5 @@
-export async function getLogoutUrl(userId) {
+export async function getLogoutUrl(backendAddress, userId) {
 
-    const logoutUrl = await fetch('http://localhost:8080/oauth/logout/' + userId);
+    const logoutUrl = await fetch(backendAddress + '/oauth/logout/' + userId);
     return logoutUrl.json();
 }
