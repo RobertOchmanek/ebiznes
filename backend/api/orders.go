@@ -8,10 +8,11 @@ import (
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/charge"
 	"net/http"
+	"os"
 	"strconv"
 )
 
-const stripeApiKey = ""
+var stripeApiKey = os.Getenv("STRIPE_API_KEY")
 
 func GetOrders(c echo.Context) error {
 

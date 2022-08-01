@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/RobertOchmanek/ebiznes_go/database"
 	"github.com/RobertOchmanek/ebiznes_go/model"
@@ -14,18 +15,20 @@ import (
 	"golang.org/x/oauth2/github"
 )
 
-const clientId = ""
-const clientSecret = ""
+var FrontendAddress = os.Getenv("FRONTEND_ADDRESS")
+var backendAddress = os.Getenv("BACKEND_ADDRESS")
+var githubClientId = os.Getenv("GITHUB_CLIENT_ID")
+var githubClientSecret = os.Getenv("GITHUB_CLIENT_SECRET")
 
 func OauthConfig() *oauth2.Config {
 
 	//Provide default configuration for oauth provider
 	oauthConfig := &oauth2.Config{
-		ClientID:     clientId,
-		ClientSecret: clientSecret,
+		ClientID:     githubClientId,
+		ClientSecret: githubClientSecret,
 		Endpoint:     github.Endpoint,
 		Scopes:       []string{"user:email", "read:user"},
-		RedirectURL:  "http://localhost:8080/oauth/callback",
+		RedirectURL:  backendAddress + "/oauth/callback",
 	}
 
 	return oauthConfig
@@ -56,7 +59,7 @@ func OauthLogoutUrl(c echo.Context) error {
 	db.Save(&user)
 
 	//Redirect user to login page
-	return c.JSON(http.StatusOK, "http://localhost:3000")
+	return c.JSON(http.StatusOK, FrontendAddress)
 }
 
 func OauthCallback(c echo.Context) error {
@@ -138,5 +141,5 @@ func OauthCallback(c echo.Context) error {
 	}
 
 	//Redirect the user to the home page with acces token as query param
-	return c.Redirect(http.StatusFound, "http://localhost:3000?user_token="+userToken.String())
+	return c.Redirect(http.StatusFound, FrontendAddress+"?user_token="+userToken.String())
 }
